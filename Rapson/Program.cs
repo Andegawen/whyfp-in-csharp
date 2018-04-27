@@ -29,6 +29,11 @@ namespace Rapson
             return (function(number + h) - function(number)) / h;
         }
 
+        public static double Halve(double x)
+        {
+            return x / 2;
+        }
+
         private static double FindTheBestApproximation(double eps, IEnumerable<double> approximations, double startApproximation)
         {
             var currentApproximation = startApproximation;
