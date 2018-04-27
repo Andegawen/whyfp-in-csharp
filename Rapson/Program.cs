@@ -18,11 +18,16 @@ namespace Rapson
             do
             {
                 currentApproximation = startApproximation;
-                nextApproximation = (currentApproximation + number / currentApproximation) / 2.0;
+                nextApproximation = GetNextApproximation(number, currentApproximation);
                 startApproximation = nextApproximation;
             } while (Math.Abs(nextApproximation - currentApproximation) >= eps);
 
             return nextApproximation;
+        }
+
+        private static double GetNextApproximation(double number, double currentApproximation)
+        {
+            return (currentApproximation + number / currentApproximation) / 2.0;
         }
     }
 }
