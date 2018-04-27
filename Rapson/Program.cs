@@ -14,17 +14,23 @@ namespace Rapson
 
         public static double Square(double number, double startApproximation, double eps)
         {
+            var approximations = GenerateApproximations(number, startApproximation);
+            return FindTheBestApproximation(eps, approximations, startApproximation);
+        }
+
+        private static double FindTheBestApproximation(double eps, IEnumerable<double> approximations, double startApproximation)
+        {
             var currentApproximation = startApproximation;
-            var approximationEnumerator = GenerateApproximations(number, startApproximation).GetEnumerator();
+            var approximationEnumerator = approximations.GetEnumerator();
             approximationEnumerator.MoveNext();
             var nextApproximation = approximationEnumerator.Current;
             while (ShouldSearchBetterApproximation(eps, nextApproximation, currentApproximation))
             {
-                
+
                 currentApproximation = approximationEnumerator.Current;
                 approximationEnumerator.MoveNext();
                 nextApproximation = approximationEnumerator.Current;
-            } 
+            }
 
             return nextApproximation;
         }
