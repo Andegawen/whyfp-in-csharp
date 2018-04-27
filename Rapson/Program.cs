@@ -19,6 +19,11 @@ namespace Rapson
             return FindTheBestApproximation(eps, approximations, startApproximation);
         }
 
+        public static double SomeFunc(double x)
+        {
+            return 3 * x * x;
+        }
+
         public static double EasyDiff(Func<double, double> function, double number, double h)
         {
             return (function(number + h) - function(number)) / h;
