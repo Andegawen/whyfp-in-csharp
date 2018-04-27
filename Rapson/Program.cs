@@ -9,7 +9,8 @@ namespace Rapson
         static void Main(string[] args)
         {
             var number = 567.0;
-            Console.WriteLine(Square(number, number/2, 0.00001));
+            Console.WriteLine(Square(number, startApproximation: number/2, eps:0.00001));
+            Console.WriteLine(Derivative(SomeFunc, number: 2, h: 1, eps:0.0001));
             Console.ReadKey();
         }
 
