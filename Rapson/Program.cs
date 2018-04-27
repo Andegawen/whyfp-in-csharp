@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Rapson
 {
@@ -13,16 +14,29 @@ namespace Rapson
 
         public static double Square(double number, double startApproximation, double eps)
         {
-            double nextApproximation = 0;
-            double currentApproximation = 0;
-            do
+            var currentApproximation = startApproximation;
+            var approximationEnumerator = GenerateApproximations(number, startApproximation).GetEnumerator();
+            approximationEnumerator.MoveNext();
+            var nextApproximation = approximationEnumerator.Current;
+            while (ShouldSearchBetterApproximation(eps, nextApproximation, currentApproximation))
             {
-                currentApproximation = startApproximation;
-                nextApproximation = GetNextApproximation(number, currentApproximation);
-                startApproximation = nextApproximation;
-            } while (ShouldSearchBetterApproximation(eps, nextApproximation, currentApproximation));
+                
+                currentApproximation = approximationEnumerator.Current;
+                approximationEnumerator.MoveNext();
+                nextApproximation = approximationEnumerator.Current;
+            } 
 
             return nextApproximation;
+        }
+
+        private static IEnumerable<double> GenerateApproximations(double number, double currentApproximation)
+        {
+            var nextApproximation = GetNextApproximation(number, currentApproximation);
+            yield return nextApproximation;
+            foreach (var approximation in GenerateApproximations(number, nextApproximation))
+            {
+                yield return approximation;
+            }
         }
 
         private static bool ShouldSearchBetterApproximation(double eps, double nextApproximation, double currentApproximation)
