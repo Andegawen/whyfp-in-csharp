@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Rapson
 {
@@ -19,6 +20,12 @@ namespace Rapson
             return FindTheBestApproximation(eps, approximations, startApproximation);
         }
 
+        public static double Derivative(Func<double, double> function, double number, double h, double eps)
+        {
+            var approximations = GenerateDerivativeApproximations(h, function, number);
+            return FindTheBestApproximation(eps, approximations, h);
+        }
+
         public static double SomeFunc(double x)
         {
             return 3 * x * x;
@@ -32,6 +39,11 @@ namespace Rapson
         public static double Halve(double x)
         {
             return x / 2;
+        }
+
+        public static IEnumerable<double> GenerateDerivativeApproximations(double h0, Func<double, double> function, double number)
+        {
+            return GenerateApproximations(Halve, h0).Select(h => EasyDiff(function, number, h));
         }
 
         private static double FindTheBestApproximation(double eps, IEnumerable<double> approximations, double startApproximation)
