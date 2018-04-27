@@ -20,9 +20,14 @@ namespace Rapson
                 currentApproximation = startApproximation;
                 nextApproximation = GetNextApproximation(number, currentApproximation);
                 startApproximation = nextApproximation;
-            } while (Math.Abs(nextApproximation - currentApproximation) >= eps);
+            } while (ShouldSearchBetterApproximation(eps, nextApproximation, currentApproximation));
 
             return nextApproximation;
+        }
+
+        private static bool ShouldSearchBetterApproximation(double eps, double nextApproximation, double currentApproximation)
+        {
+            return Math.Abs(nextApproximation - currentApproximation) >= eps;
         }
 
         private static double GetNextApproximation(double number, double currentApproximation)
