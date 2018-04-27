@@ -14,7 +14,7 @@ namespace Rapson
 
         public static double Square(double number, double startApproximation, double eps)
         {
-            var approximations = GenerateApproximations(number, startApproximation);
+            var approximations = GenerateApproximations(number, GetNextApproximation, startApproximation);
             return FindTheBestApproximation(eps, approximations, startApproximation);
         }
 
@@ -35,11 +35,11 @@ namespace Rapson
             return nextApproximation;
         }
 
-        private static IEnumerable<double> GenerateApproximations(double number, double currentApproximation)
+        private static IEnumerable<double> GenerateApproximations(double number, Func<double, double, double> getNextIteration, double currentApproximation)
         {
-            var nextApproximation = GetNextApproximation(number, currentApproximation);
+            var nextApproximation = getNextIteration(number, currentApproximation);
             yield return nextApproximation;
-            foreach (var approximation in GenerateApproximations(number, nextApproximation))
+            foreach (var approximation in GenerateApproximations(number, getNextIteration, nextApproximation))
             {
                 yield return approximation;
             }
