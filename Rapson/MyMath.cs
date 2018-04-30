@@ -5,10 +5,11 @@ namespace Rapson
 {
     public static class MyMath
     {
-        public static double FindTheBestApproximation(double eps, IEnumerable<double> approximations, double startApproximation)
+        public static double FindTheBestApproximation(double eps, IEnumerable<double> approximations)
         {
-            var currentApproximation = startApproximation;
             var approximationEnumerator = approximations.GetEnumerator();
+            approximationEnumerator.MoveNext();
+            var currentApproximation = approximationEnumerator.Current;
             approximationEnumerator.MoveNext();
             var nextApproximation = approximationEnumerator.Current;
             while (ShouldSearchBetterApproximation(eps, nextApproximation, currentApproximation))

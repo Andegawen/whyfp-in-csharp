@@ -17,14 +17,13 @@ namespace Rapson
         public static double Square(double number, double startApproximation, double eps)
         {
             double GetNextApproximationForNumber(double startApprox) => GetNextApproximation(number, startApprox);
-            var approximations = MyMath.GenerateApproximations(GetNextApproximationForNumber, startApproximation);
-            return MyMath.FindTheBestApproximation(eps, approximations, startApproximation);
+            return MyMath.FindTheBestApproximation(eps, MyMath.GenerateApproximations(GetNextApproximationForNumber, startApproximation));
         }
 
         public static double Derivative(Func<double, double> function, double number, double h, double eps)
         {
             var approximations = GenerateDerivativeApproximations(h, function, number);
-            return MyMath.FindTheBestApproximation(eps, approximations, h);
+            return MyMath.FindTheBestApproximation(eps, approximations);
         }
 
         public static double SomeFunc(double x)
