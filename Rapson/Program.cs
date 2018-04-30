@@ -16,14 +16,13 @@ namespace Rapson
 
         public static double Square(double number, double startApproximation, double eps)
         {
-            double GetNextApproximationForNumber(double startApprox) => GetNextApproximation(number, startApprox);
-            return MyMath.FindTheBestApproximation(eps, MyMath.GenerateApproximations(GetNextApproximationForNumber, startApproximation));
+            double NextApproximation(double startApprox) => GetNextApproximation(number, startApprox);
+            return MyMath.Within(eps, MyMath.Repeat(NextApproximation, startApproximation));
         }
 
         public static double Derivative(Func<double, double> function, double number, double h, double eps)
         {
-            var approximations = GenerateDerivativeApproximations(h, function, number);
-            return MyMath.FindTheBestApproximation(eps, approximations);
+            return MyMath.Within(eps, DerivativeApproximations(h, function, number));
         }
 
         public static double SomeFunc(double x)
@@ -41,9 +40,9 @@ namespace Rapson
             return x / 2;
         }
 
-        public static IEnumerable<double> GenerateDerivativeApproximations(double h0, Func<double, double> function, double number)
+        public static IEnumerable<double> DerivativeApproximations(double h0, Func<double, double> function, double number)
         {
-            return MyMath.GenerateApproximations(Halve, h0).Select(h => EasyDiff(function, number, h));
+            return MyMath.Repeat(Halve, h0).Select(h => EasyDiff(function, number, h));
         }
 
         private static double GetNextApproximation(double number, double currentApproximation)

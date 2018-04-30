@@ -5,7 +5,7 @@ namespace Rapson
 {
     public static class MyMath
     {
-        public static double FindTheBestApproximation(double eps, IEnumerable<double> approximations)
+        public static double Within(double eps, IEnumerable<double> approximations)
         {
             var approximationEnumerator = approximations.GetEnumerator();
             approximationEnumerator.MoveNext();
@@ -23,11 +23,11 @@ namespace Rapson
             return nextApproximation;
         }
 
-        public static IEnumerable<double> GenerateApproximations(Func<double, double> getNextIteration, double currentApproximation)
+        public static IEnumerable<double> Repeat(Func<double, double> getNextIteration, double currentApproximation)
         {
             var nextApproximation = getNextIteration(currentApproximation);
             yield return nextApproximation;
-            foreach (var approximation in GenerateApproximations(getNextIteration, nextApproximation))
+            foreach (var approximation in Repeat(getNextIteration, nextApproximation))
             {
                 yield return approximation;
             }
